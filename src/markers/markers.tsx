@@ -1,5 +1,3 @@
-import React from "react";
-
 import { toScreenCoords, isOutOfBounds } from "./../utils"
 import type { MarkersProps } from "../types";
 import { MarkerItem } from "./marker.item";
@@ -32,6 +30,7 @@ export function Markers({
 
         return (
           <MarkerItem
+            key={index}
             point={point}
             index={index}
             x={x}
