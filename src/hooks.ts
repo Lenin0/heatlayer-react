@@ -66,6 +66,32 @@ export function useZoom(containerRef: React.RefObject<HTMLDivElement | null>) {
   return { zoom, pan, setPan, applyZoom, zoomIn, zoomOut, resetZoom: reset, ZOOM_STEP, MIN_ZOOM, MAX_ZOOM };
 }
 
+export function useWheelZoom(
+  containerRef: React.RefObject<HTMLDivElement | null>,
+  applyZoom: (nextZoom: number, originX?: number, originY?: number) => void,
+  zoom: number,
+  enabled = true,
+) {
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || !enabled) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const rect   = el.getBoundingClientRect();
+      const originX = e.clientX - rect.left;
+      const originY = e.clientY - rect.top;
+      const delta = -(e.deltaY / 1000);
+      const clamped = Math.max(-ZOOM_STEP, Math.min(ZOOM_STEP, delta));
+
+      applyZoom(zoom + clamped, originX, originY);
+    };
+
+    el.addEventListener("wheel", handleWheel, { passive: false });
+    return () => el.removeEventListener("wheel", handleWheel);
+  }, [containerRef, applyZoom, zoom, enabled]);
+}
+
 export function useDrag(
   containerRef: React.RefObject<HTMLDivElement | null>,
   zoom: number,
@@ -191,4 +217,23 @@ export function usePlaceClick(
       onMapClick((rawY / rect.height) * 100, (rawX / rect.width) * 100);
     }
   }, [isPlacingMode, containerRef, imgRect, zoom, pan, onMapClick]);
+}
+
+export function useSize(ref: React.RefObject<HTMLDivElement | null>) {
+  const [size, setSize] = useState({ w: 0, h: 0 });
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect;
+      setSize({ w: width, h: height });
+    });
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [ref]);
+
+  return size;
 }
