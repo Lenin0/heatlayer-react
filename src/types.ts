@@ -43,6 +43,19 @@ export type HeatmapPoint = {
   meta?:   Record<string, unknown>;
 };
 
+export type ControlsProps = {
+  zoom: number;
+  minZoom: number;
+  maxZoom: number;
+  pan: Pan;
+  onZoomIn: () => void;
+  onZoomOut: () => void;
+  onReset: () => void;
+  onSwap?: () => void;
+  isPlacing?: boolean;
+  labels?: string;
+};
+
 export type TooltipProps = {
   point:  HeatmapPoint;
   index:  number;
@@ -83,6 +96,7 @@ export type HeatmapImageModeProps = {
   mapImageUrl?:      string;
   isPlacingMode?:    boolean;
   activePointIndex?: number;
+  scrollZoom?:       boolean;
   onMapClick?:       (lat: number, lng: number) => void;
   onPointClick?:     (index: number) => void;
   onImageUpload?:    (file: File) => void;
@@ -97,6 +111,7 @@ export type HeatmapChartProps = {
   isPlacingMode?:    boolean;
   readOnly?:         boolean;
   activePointIndex?: number;
+  scrollZoom?:       boolean;
   onMapModeChange?:  (mode: HeatMode)     => void;
   mapConfigChange?:  (config: MapConfig)  => void;
   onMapClick?:       (lat: number, lng: number) => void;

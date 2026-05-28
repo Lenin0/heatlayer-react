@@ -1,23 +1,6 @@
 import React from "react";
 import { ZoomIn, ZoomOut, Maximize2, Upload } from "lucide-react";
-import type { Pan } from "./types";
-
-type Labels = {
-  swapImage?: string;
-};
-
-type Props = {
-  zoom: number;
-  minZoom: number;
-  maxZoom: number;
-  pan: Pan;
-  onZoomIn: () => void;
-  onZoomOut: () => void;
-  onReset: () => void;
-  onSwap?: () => void;
-  isPlacing?: boolean;
-  labels?: Labels;
-};
+import type { ControlsProps, Pan } from "./types";
 
 const S = {
   controlsWrap: {
@@ -86,7 +69,7 @@ export function HeatmapControls({
   onSwap,
   isPlacing,
   labels,
-}: Props) {
+}: ControlsProps) {
   const isReset =
     Math.abs(zoom - 1) < 0.001 &&
     Math.abs(pan.x) < 0.001 &&
@@ -144,7 +127,7 @@ export function HeatmapControls({
           }}
         >
           <Upload size={12} />
-          {labels?.swapImage ?? "Swap image"}
+          {labels ?? "Swap image"}
         </button>
       )}
     </>
