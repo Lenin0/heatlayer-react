@@ -1,4 +1,4 @@
-import { HeatmapPoint, ImageRect, Pan } from "./types";
+import { HeatmapPoint, ImageRect, Pan, TooltipField, TooltipProps } from "./types";
 
 
 export function seeded(n: number) {
@@ -30,11 +30,11 @@ export function clampPan(pan: Pan, zoom: number, cW: number, cH: number): Pan {
 
 
 const THERMAL_RAMP: [number, [number, number, number]][] = [
-  [0.00, [30,  78,  216]], // azul    — gelado
-  [0.25, [34,  197,  94]], // verde   — frio
-  [0.50, [250, 204,  21]], // amarelo — morno
-  [0.75, [249, 115,  22]], // laranja — quente
-  [1.00, [220,  38,  38]], // vermelho— muito quente
+  [0.00, [30,  78,  216]],
+  [0.25, [34,  197,  94]], 
+  [0.50, [250, 204,  21]], 
+  [0.75, [249, 115,  22]], 
+  [1.00, [220,  38,  38]], 
 ];
 
 export function sampleThermal(t: number): string {
@@ -187,4 +187,14 @@ const DEFAULTS = {
     containerW: number, containerH: number
   ) {
     return x < 0 || x > containerW || y < 0 || y > containerH;
+  }
+
+  export function resolveTooltipValue(
+    field: TooltipField,
+    point: TooltipProps["point"],
+    index: number
+  ) {
+    return typeof field.value === "function"
+      ? field.value(point, index)
+      : field.value;
   }
