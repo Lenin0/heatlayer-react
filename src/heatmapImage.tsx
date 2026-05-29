@@ -46,12 +46,13 @@ const S = {
   } satisfies React.CSSProperties,
 } as const;
 
-export function HeatmapImageMode({
+export default function HeatmapImage({
   points,
   mapImageUrl,
   isPlacingMode,
   activePointIndex,
   scrollZoom = true,
+  organic = false,
   renderTooltip,
   onMapClick,
   onPointClick,
@@ -72,7 +73,7 @@ export function HeatmapImageMode({
   const { fileRef, handleDragOver, handleDrop, handleFileChange, openPicker } =
     useFileUpload(onImageUpload);
 
-  useDraw(containerRef, canvasRef, points, zoom, pan, computeRect);
+  useDraw(containerRef, canvasRef, points, zoom, pan, organic, computeRect);
   useWheelZoom(containerRef, applyZoom, zoom, scrollZoom && !isPlacingMode);
 
   const handleClick = usePlaceClick(

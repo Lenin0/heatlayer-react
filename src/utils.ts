@@ -6,6 +6,19 @@ export function seeded(n: number) {
   return x - Math.floor(x);
 }
 
+function organicRadius(
+  angle: number,
+  baseRadius: number,
+  seed: number
+): number {
+  const noise =
+    Math.sin(angle * 3 + seed)       * 0.12 +
+    Math.sin(angle * 7 + seed * 1.3) * 0.06 +
+    Math.sin(angle * 13 + seed * 0.7) * 0.03;
+
+  return baseRadius * (1 + noise);
+}
+
 export function clamp(v: number, min = 0, max = 1) {
   return Math.max(min, Math.min(max, v));
 }
@@ -106,7 +119,8 @@ const DEFAULTS = {
     points: HeatmapPoint[],
     imgRect: ImageRect,
     zoom: number,
-    pan: Pan
+    pan: Pan,
+    organic?: boolean 
   ) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -153,10 +167,22 @@ const DEFAULTS = {
       const startRad     = (startDeg * Math.PI) / 180;
       const endRad       = ((startDeg + sweepDeg) * Math.PI) / 180;
   
+      const seed  = (point.lat * 100 + point.lng * 100) % (Math.PI * 2);
+      const steps = 64;
+  
       ctx.beginPath();
       ctx.fillStyle = gradient;
   
-      if (isFullCircle) {
+      if (organic) {
+        for (let i = 0; i <= steps; i++) {
+          const angle = (i / steps) * Math.PI * 2;
+          const r     = organicRadius(angle, finalRadius, seed);
+          const px    = cx + Math.cos(angle) * r;
+          const py    = cy + Math.sin(angle) * r;
+          i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+      } else if (isFullCircle) {
         ctx.arc(cx, cy, finalRadius, 0, Math.PI * 2);
       } else {
         ctx.moveTo(cx, cy);

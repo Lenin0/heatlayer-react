@@ -1,5 +1,5 @@
-export { default as HeatmapChart } from "./heatmap";
-export { HeatmapImageMode } from "./heatmap.imageMode";
+export { default as  HeatmapImage } from "./heatmapImage";
+export { HeatmapMapDynamic as HeatmapMap } from "./map/map.render";
 
 export type {
   HeatmapPoint,

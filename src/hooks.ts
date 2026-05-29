@@ -131,6 +131,7 @@ export function useDraw(
   points: HeatmapPoint[],
   zoom: number,
   pan: Pan,
+  organic: boolean,
   computeRect: (w: number, h: number) => ImageRect
 ) {
   const sensorKey = useMemo(
@@ -151,7 +152,7 @@ export function useDraw(
     canvas.height = container.offsetHeight;
 
     const rect = computeRect(container.offsetWidth, container.offsetHeight);
-    drawHeatmap(canvas, points, rect, zoom, pan);
+    drawHeatmap(canvas, points, rect, zoom, pan, organic);
   }, [sensorKey, points, zoom, pan, computeRect, containerRef, canvasRef]); 
 
   useEffect(() => { redraw(); }, [redraw]);
