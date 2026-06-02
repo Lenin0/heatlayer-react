@@ -4,7 +4,7 @@ import { HeatmapCanvas } from "./canva";
 import { Markers } from "./markers/markers";
 import { HeatmapControls } from "./controls";
 import { MapEmptyState } from "./emptyState";
-import { PlacingBanner } from "./PlacingBanner";
+import { PlacingBanner } from "./placingBanner";
 
 import {
   useImageRect,
