@@ -18,7 +18,7 @@ interface WithPoint {
   index: number;
 }
 
-interface WithPoints {
+export interface WithPoints {
   points:            HeatmapPoint[];
   activePointIndex?: number;
   onPointClick?:     (index: number) => void;
@@ -109,13 +109,20 @@ export interface MarkersProps extends WithPoints, WithZoomPan {
 export interface HeatmapImageModeProps extends WithPoints, WithMapInteraction {
   mapImageUrl?:  string;
   scrollZoom?:   boolean;
+  organic?:       boolean;
   onImageUpload?: (file: File) => void;
+}
+
+export interface HeatmapMapRenderProps extends WithPoints, WithMapInteraction {
+  config?:           MapConfig;
+  readOnly?:       boolean;
+  onConfigChange?: (cfg: MapConfig) => void;
 }
 
 export interface HeatmapChartProps extends HeatmapImageModeProps {
   heatMode?:        HeatMode;
   mapConfig?:       MapConfig;
-  readOnly?:        boolean;
+  organic?:         boolean; 
   onMapModeChange?: (mode: HeatMode)    => void;
   mapConfigChange?: (config: MapConfig) => void;
 }
