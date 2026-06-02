@@ -1,3 +1,4 @@
+import React from "react";
 import { toScreenCoords, isOutOfBounds } from "./../utils"
 import type { MarkersProps } from "../types";
 import { MarkerItem } from "./marker.item";
