@@ -8,7 +8,7 @@ import { HeatmapMapLayer }    from "./map.layer";
 import { MapMarkers }         from "./map.marker";
 import { MapViewController }  from "./map.controller";
 import { MapClickHandler }    from "./map.clickHandler";
-import { PlacingBanner }      from "../PlacingBanner";
+import { PlacingBanner }      from "../placingBanner";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 
