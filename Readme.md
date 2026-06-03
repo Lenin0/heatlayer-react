@@ -1,4 +1,4 @@
-# react-heatmap-chart
+# heatlayer-react
 
 A React component library for rendering interactive heatmaps on top of custom images or OpenStreetMap tiles.
 
@@ -7,7 +7,7 @@ A React component library for rendering interactive heatmaps on top of custom im
 ## Installation
 
 ```bash
-npm install react-heatmap-chart
+npm install heatlayer-react
 ```
 
 ### Peer dependencies
@@ -31,7 +31,7 @@ npm install leaflet react-leaflet
 Render a heatmap on top of any uploaded image (floor plan, facility layout, etc.).
 
 ```tsx
-import { HeatmapImage } from "react-heatmap-chart";
+import { HeatmapImage } from "heatlayer-react";
 
 const points = [
   { lat: 30, lng: 50, value: 80, label: "Sensor A" },
@@ -55,7 +55,7 @@ export default function App() {
 Render a heatmap over an interactive OpenStreetMap map.
 
 ```tsx
-import { HeatmapMap } from "react-heatmap-chart";
+import { HeatmapMap } from "heatlayer-react";
 
 const points = [
   { lat: -8.05, lng: -34.88, value: 90, label: "Station 1" },
@@ -85,7 +85,7 @@ export default function App() {
 Renders a heatmap canvas over a background image with pan, zoom, and optional point-placement interaction.
 
 ```tsx
-import { HeatmapImage } from "react-heatmap-chart";
+import { HeatmapImage } from "heatlayer-react";
 ```
 
 #### Props
@@ -110,7 +110,7 @@ import { HeatmapImage } from "react-heatmap-chart";
 Renders a heatmap over an interactive OpenStreetMap base layer (Leaflet).
 
 ```tsx
-import { HeatmapMap } from "react-heatmap-chart";
+import { HeatmapMap } from "heatlayer-react";
 ```
 
 #### Props
@@ -353,7 +353,7 @@ import type {
   RenderTooltip,
   ImageRect,
   Pan,
-} from "react-heatmap-chart";
+} from "heatlayer-react";
 ```
 
 ---

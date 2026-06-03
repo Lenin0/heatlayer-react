@@ -1,4 +1,4 @@
-# Contributing to react-heatmap-chart
+# Contributing to heatlayer-react
 
 Thank you for your interest in contributing! This document explains how to set up the environment, the project conventions, and the expected workflow for submitting changes.
 
@@ -32,8 +32,8 @@ Thank you for your interest in contributing! This document explains how to set u
 1. **Fork** the repository and clone your fork:
 
 ```bash
-git clone https://github.com/Lenin0/heatmap-react
-cd heatmap-react
+git clone https://github.com/Lenin0/heatlayer-react
+cd heatlayer-react
 ```
 
 2. Install the dependencies:
@@ -55,7 +55,7 @@ The watch build uses `tsup` and automatically recompiles whenever a file is save
 ## Project structure
 
 ```
-react-heatmap-chart/
+heatlayer-react/
 ├── src/
 │   ├── index.ts                  # Public exports
 │   ├── types.ts                  # All TypeScript types
@@ -128,12 +128,12 @@ npm run dev   # watch mode
 Test your changes by linking the library in a local project:
 
 ```bash
-# At the root of react-heatmap-chart
+# At the root of heatlayer-react
 npm run build
 npm link
 
 # In the test project
-npm link react-heatmap-chart
+npm link heatlayer-react
 ```
 
 ### 3. Make semantic commits
@@ -357,9 +357,9 @@ git push origin feat/my-feature
 
 ## Reporting bugs
 
-Open an [issue](https://github.com/Bzutech/react-heatmap-chart/issues/new) with:
+Open an [issue](https://github.com/Bzutech/heatlayer-react/issues/new) with:
 
-* **Library version** (`npm list react-heatmap-chart`)
+* **Library version** (`npm list heatlayer-react`)
 * **Description of expected vs. observed behavior**
 * **Minimal reproducible code** (snippet or sandbox)
 * **Environment** — browser, Node version, bundler
