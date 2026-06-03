@@ -11,7 +11,7 @@ export const DEFAULT_OSM_CONFIG: MapConfig = {
   locked: false,
 };
 
-export function MapConfig(controlled?: MapConfig) {
+export function useMapConfig(controlled?: MapConfig) {
   const [internalCfg, setInternalCfg] = useState<MapConfig>(DEFAULT_OSM_CONFIG);
 
   useEffect(() => {
