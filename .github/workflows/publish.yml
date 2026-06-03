@@ -24,7 +24,7 @@ jobs:
         id: version
         run: |
           LOCAL=$(node -p "require('./package.json').version")
-          REMOTE=$(npm view react-heatmap-chart version 2>/dev/null || echo "0.0.0")
+          REMOTE=$(npm view heatmap-react version 2>/dev/null || echo "0.0.0")
           echo "changed=$([ "$LOCAL" != "$REMOTE" ] && echo true || echo false)" >> $GITHUB_OUTPUT
 
       - name: Publish
