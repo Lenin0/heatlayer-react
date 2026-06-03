@@ -1,6 +1,6 @@
 {
-  "name": "react-heatmap-chart",
-  "version": "0.1.1",
+  "name": "heatmap-react",
+  "version": "0.1.2",
   "description": "Interactive heatmap components for React — image and OpenStreetMap modes",
   "license": "MIT",
   "author": "Bzutech",

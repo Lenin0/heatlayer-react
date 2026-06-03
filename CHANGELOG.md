@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v0.1.2
+
+[compare changes](https://github.com/Lenin0/heatmap-react/compare/v0.1.1...v0.1.2)
+
+### 📖 Documentation
+
+- **CONTRIBUTING:** Document release workflow ([013948b](https://github.com/Lenin0/heatmap-react/commit/013948b))
+
+### 🏡 Chore
+
+- **package-lock:** Update release dependencies ([cf55483](https://github.com/Lenin0/heatmap-react/commit/cf55483))
+
+### 🤖 CI
+
+- **publish:** Add npm publish workflow ([4e95878](https://github.com/Lenin0/heatmap-react/commit/4e95878))
+
+### ❤️ Contributors
+
+- Pedro Lenin <pedrolenin06@gmail.com>
+
 ## v0.1.1
 
 
