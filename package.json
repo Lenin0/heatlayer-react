@@ -1,6 +1,14 @@
 {
   "name": "react-heatmap-chart",
   "version": "0.1.0",
+  "description": "Interactive heatmap components for React — image and OpenStreetMap modes",
+  "license": "MIT",
+  "author": "Bzutech",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lenin0/heatmap-react"
+  },
+  "keywords": ["react", "heatmap", "leaflet", "canvas", "visualization"],
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -11,15 +19,13 @@
       "require": "./dist/index.js"
     }
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "sideEffects": false,
   "peerDependencies": {
-    "leaflet": ">=1.9.0",
-    "lucide-react": ">=0.400.0",
     "react": ">=18",
     "react-dom": ">=18",
+    "lucide-react": ">=0.400.0",
+    "leaflet": ">=1.9.0",
     "react-leaflet": ">=5.0.0"
   },
   "peerDependenciesMeta": {
@@ -27,9 +33,6 @@
       "optional": true
     },
     "react-leaflet": {
-      "optional": true
-    },
-    "lucide-react": {
       "optional": true
     }
   },
