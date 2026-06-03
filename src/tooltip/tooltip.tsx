@@ -3,6 +3,7 @@ import React from "react";
 import type { TooltipProps } from "../types";
 import { usePlacement } from "./tooltip.hook";
 import { getTooltipStyles } from "./tooltip.styles";
+import { resolveTooltipValue } from "../utils";
 
 const S = {
   wrapper: {
@@ -103,60 +104,62 @@ const S = {
 } as const;
 
 export function Tooltip({ point, index, value }: TooltipProps) {
-    const { wrapperRef, tooltipRef, place } = usePlacement(point.lat, point.lng);
-    const styles = getTooltipStyles(place);
-  
-    const displayValue = value ?? point.value ?? "—";
-  
-    return (
-      <div ref={wrapperRef}>
-        <div ref={tooltipRef} style={{ ...S.wrapper, ...styles.wrapper }}>
-          <div style={S.card}>
-            <div style={{ ...S.header, background: point.color ?? "#111827" }}>
-              <span style={S.dot} />
-  
-              <span style={S.title}>
-                {point.label ?? `Point ${index + 1}`}
-              </span>
-            </div>
-  
-            <div style={S.body}>
-              <TooltipRow label="Label" value={point.label} />
-  
-              <div style={{ ...S.row, ...S.dividerRow }}>
-                <span style={S.label}>Value</span>
-  
-                <div style={S.valueWrap}>
-                  <span style={{ ...S.value, color: point.color ?? "#111827" }}>
-                    {displayValue}
-                  </span>
-  
-                  {point.value == null && (
-                    <span style={S.preview}>preview</span>
-                  )}
-                </div>
+  const { wrapperRef, tooltipRef, place } = usePlacement(point.lat, point.lng);
+  const styles = getTooltipStyles(place);
+
+  const displayValue = value ?? point.value ?? "—";
+
+  return (
+    <div ref={wrapperRef}>
+      <div ref={tooltipRef} style={{ ...S.wrapper, ...styles.wrapper }}>
+        <div style={S.card}>
+          <div style={{ ...S.header, background: point.color ?? "#111827" }}>
+            <span style={S.dot} />
+
+            <span style={S.title}>{point.label ?? `Point ${index + 1}`}</span>
+          </div>
+
+          <div style={S.body}>
+            {point.tooltipLabel?.map((field, fieldIndex) => (
+              <TooltipRow
+                key={fieldIndex}
+                label={field.label}
+                value={resolveTooltipValue(field, point, index)}
+              />
+            ))}
+
+            <div style={{ ...S.row, ...S.dividerRow }}>
+              <span style={S.label}>Value</span>
+
+              <div style={S.valueWrap}>
+                <span style={{ ...S.value, color: point.color ?? "#111827" }}>
+                  {displayValue}
+                </span>
+
+                {point.value == null && <span style={S.preview}>preview</span>}
               </div>
             </div>
           </div>
-  
-          <div
-            style={{
-              ...styles.arrow,
-              position: "absolute",
-              width: 0,
-              height: 0,
-            }}
-          />
         </div>
+
+        <div
+          style={{
+            ...styles.arrow,
+            position: "absolute",
+            width: 0,
+            height: 0,
+          }}
+        />
       </div>
-    );
-  }
+    </div>
+  );
+}
 
 function TooltipRow({
   label,
   value,
 }: {
-  label: string;
+  label: React.ReactNode;
   value?: React.ReactNode;
 }) {
   return (

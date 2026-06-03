@@ -1,12 +1,10 @@
 import React, { useRef } from "react";
-
 import type { HeatmapImageModeProps } from "./types";
-
 import { HeatmapCanvas } from "./canva";
 import { Markers } from "./markers/markers";
 import { HeatmapControls } from "./controls";
 import { MapEmptyState } from "./emptyState";
-import { PlacingBanner } from "./PlacingBanner";
+import { PlacingBanner } from "./placingBanner";
 
 import {
   useImageRect,
@@ -15,6 +13,8 @@ import {
   useDraw,
   useFileUpload,
   usePlaceClick,
+  useSize,
+  useWheelZoom,
 } from "./hooks";
 
 const S = {
@@ -46,11 +46,13 @@ const S = {
   } satisfies React.CSSProperties,
 } as const;
 
-export function HeatmapImageMode({
+export default function HeatmapImage({
   points,
   mapImageUrl,
   isPlacingMode,
   activePointIndex,
+  scrollZoom = true,
+  organic = false,
   renderTooltip,
   onMapClick,
   onPointClick,
@@ -58,11 +60,11 @@ export function HeatmapImageMode({
 }: HeatmapImageModeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
-
+  
+  const { w: containerW, h: containerH } = useSize(containerRef);
   const { imgRect, computeRect, handleImageLoad } = useImageRect(mapImageUrl);
 
-  const { zoom, pan, setPan, zoomIn, zoomOut, resetZoom, MIN_ZOOM, MAX_ZOOM } =
+  const { zoom, pan, applyZoom, setPan, zoomIn, zoomOut, resetZoom, MIN_ZOOM, MAX_ZOOM } =
     useZoom(containerRef);
 
   const { isDragging, handleMouseDown, handleMouseMove, handleMouseUp } =
@@ -71,7 +73,8 @@ export function HeatmapImageMode({
   const { fileRef, handleDragOver, handleDrop, handleFileChange, openPicker } =
     useFileUpload(onImageUpload);
 
-  useDraw(containerRef, canvasRef, points, zoom, pan, computeRect);
+  useDraw(containerRef, canvasRef, points, zoom, pan, organic, computeRect);
+  useWheelZoom(containerRef, applyZoom, zoom, scrollZoom && !isPlacingMode);
 
   const handleClick = usePlaceClick(
     containerRef,
@@ -90,8 +93,7 @@ export function HeatmapImageMode({
     ? "grab"
     : "default";
 
-  const containerW = containerRef.current?.offsetWidth ?? 1;
-  const containerH = containerRef.current?.offsetHeight ?? 1;
+
 
   return (
     <div
@@ -125,7 +127,6 @@ export function HeatmapImageMode({
           }}
         >
           <img
-            ref={imgRef}
             src={mapImageUrl}
             alt="Heatmap background"
             draggable={false}

@@ -2,9 +2,12 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
   entry: ["src/index.ts"],
-  format: ["cjs", "esm"],
+  format: ["esm", "cjs"],
   dts: true,
   sourcemap: true,
   clean: true,
+  splitting: false,
+  minify: false,
+  target: "es2019",
   external: ["react", "react-dom", "leaflet", "react-leaflet", "lucide-react"],
 });

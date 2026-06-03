@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import type { MarkerItemProps } from "../types";
 import { MarkerPin } from "./marker.pin";
-import { Tooltip } from "../tooltip/Tooltip";
+import { Tooltip } from "../tooltip/tooltip";
 
 const S = {
   root: {

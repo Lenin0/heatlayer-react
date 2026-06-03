@@ -1,14 +1,28 @@
 {
   "name": "react-heatmap-chart",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "description": "Interactive heatmap components for React — image and OpenStreetMap modes",
+  "license": "MIT",
+  "author": "Bzutech",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lenin0/heatmap-react"
+  },
+  "keywords": [
+    "react",
+    "heatmap",
+    "leaflet",
+    "canvas",
+    "visualization"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
   "files": [
@@ -16,9 +30,11 @@
   ],
   "sideEffects": false,
   "peerDependencies": {
-    "lucide-react": "^1.16.0",
+    "leaflet": ">=1.9.0",
+    "lucide-react": ">=0.400.0",
     "react": ">=18",
-    "react-dom": ">=18"
+    "react-dom": ">=18",
+    "react-leaflet": ">=5.0.0"
   },
   "peerDependenciesMeta": {
     "leaflet": {
@@ -30,11 +46,28 @@
   },
   "scripts": {
     "build": "tsup",
-    "dev": "tsup --watch"
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest run --coverage",
+    "release": "changelogen --release --push"
   },
   "devDependencies": {
-    "@types/react": "^19.2.15",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/leaflet": "^1.9.21",
+    "@types/react": "^19.2.16",
     "@types/react-dom": "^19.2.3",
-    "typescript": "^6.0.3"
+    "changelogen": "^0.6.2",
+    "jsdom": "^29.1.1",
+    "leaflet": "^1.9.4",
+    "lucide-react": "^0.468.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-leaflet": "^5.0.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.8"
   }
 }

@@ -1,9 +1,22 @@
-import { HeatmapPoint, ImageRect, Pan } from "./types";
+import { HeatmapPoint, ImageRect, Pan, TooltipField, TooltipProps } from "./types";
 
 
 export function seeded(n: number) {
   const x = Math.sin(n * 999.91) * 10000;
   return x - Math.floor(x);
+}
+
+function organicRadius(
+  angle: number,
+  baseRadius: number,
+  seed: number
+): number {
+  const noise =
+    Math.sin(angle * 3 + seed)       * 0.12 +
+    Math.sin(angle * 7 + seed * 1.3) * 0.06 +
+    Math.sin(angle * 13 + seed * 0.7) * 0.03;
+
+  return baseRadius * (1 + noise);
 }
 
 export function clamp(v: number, min = 0, max = 1) {
@@ -30,11 +43,11 @@ export function clampPan(pan: Pan, zoom: number, cW: number, cH: number): Pan {
 
 
 const THERMAL_RAMP: [number, [number, number, number]][] = [
-  [0.00, [30,  78,  216]], // azul    — gelado
-  [0.25, [34,  197,  94]], // verde   — frio
-  [0.50, [250, 204,  21]], // amarelo — morno
-  [0.75, [249, 115,  22]], // laranja — quente
-  [1.00, [220,  38,  38]], // vermelho— muito quente
+  [0.00, [30,  78,  216]],
+  [0.25, [34,  197,  94]], 
+  [0.50, [250, 204,  21]], 
+  [0.75, [249, 115,  22]], 
+  [1.00, [220,  38,  38]], 
 ];
 
 export function sampleThermal(t: number): string {
@@ -106,7 +119,8 @@ const DEFAULTS = {
     points: HeatmapPoint[],
     imgRect: ImageRect,
     zoom: number,
-    pan: Pan
+    pan: Pan,
+    organic?: boolean 
   ) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -153,10 +167,22 @@ const DEFAULTS = {
       const startRad     = (startDeg * Math.PI) / 180;
       const endRad       = ((startDeg + sweepDeg) * Math.PI) / 180;
   
+      const seed  = (point.lat * 100 + point.lng * 100) % (Math.PI * 2);
+      const steps = 64;
+  
       ctx.beginPath();
       ctx.fillStyle = gradient;
   
-      if (isFullCircle) {
+      if (organic) {
+        for (let i = 0; i <= steps; i++) {
+          const angle = (i / steps) * Math.PI * 2;
+          const r     = organicRadius(angle, finalRadius, seed);
+          const px    = cx + Math.cos(angle) * r;
+          const py    = cy + Math.sin(angle) * r;
+          i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+      } else if (isFullCircle) {
         ctx.arc(cx, cy, finalRadius, 0, Math.PI * 2);
       } else {
         ctx.moveTo(cx, cy);
@@ -187,4 +213,14 @@ const DEFAULTS = {
     containerW: number, containerH: number
   ) {
     return x < 0 || x > containerW || y < 0 || y > containerH;
+  }
+
+  export function resolveTooltipValue(
+    field: TooltipField,
+    point: TooltipProps["point"],
+    index: number
+  ) {
+    return typeof field.value === "function"
+      ? field.value(point, index)
+      : field.value;
   }
