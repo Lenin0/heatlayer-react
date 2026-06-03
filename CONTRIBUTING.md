@@ -6,23 +6,24 @@ Thank you for your interest in contributing! This document explains how to set u
 
 ## Table of Contents
 
-- [Prerequisites](#prerequisites)
-- [Setting up the environment](#setting-up-the-environment)
-- [Project structure](#project-structure)
-- [Development workflow](#development-workflow)
-- [Code conventions](#code-conventions)
-- [Tests](#tests)
-- [Opening a Pull Request](#opening-a-pull-request)
-- [Reporting bugs](#reporting-bugs)
-- [Suggesting improvements](#suggesting-improvements)
+* [Prerequisites](#prerequisites)
+* [Setting up the environment](#setting-up-the-environment)
+* [Project structure](#project-structure)
+* [Development workflow](#development-workflow)
+* [Code conventions](#code-conventions)
+* [Tests](#tests)
+* [Release and changelog](#release-and-changelog)
+* [Opening a Pull Request](#opening-a-pull-request)
+* [Reporting bugs](#reporting-bugs)
+* [Suggesting improvements](#suggesting-improvements)
 
 ---
 
 ## Prerequisites
 
-- **Node.js** >= 18
-- **npm** >= 9
-- Git
+* **Node.js** >= 18
+* **npm** >= 9
+* Git
 
 ---
 
@@ -32,7 +33,7 @@ Thank you for your interest in contributing! This document explains how to set u
 
 ```bash
 git clone https://github.com/Lenin0/heatmap-react
-cd react-heatmap-chart
+cd heatmap-react
 ```
 
 2. Install the dependencies:
@@ -109,14 +110,14 @@ git checkout -b docs/contributing-guide
 git checkout -b refactor/use-draw-cleanup
 ```
 
-| Prefix | When to use |
-|--------|-------------|
-| `feat/` | New feature |
-| `fix/` | Bug fix |
-| `docs/` | Documentation only |
+| Prefix      | When to use                          |
+| ----------- | ------------------------------------ |
+| `feat/`     | New feature                          |
+| `fix/`      | Bug fix                              |
+| `docs/`     | Documentation only                   |
 | `refactor/` | Refactoring without behavior changes |
-| `chore/` | Configuration, dependencies, CI |
-| `test/` | Adding or fixing tests |
+| `chore/`    | Configuration, dependencies, CI      |
+| `test/`     | Adding or fixing tests               |
 
 ### 2. Develop and compile
 
@@ -157,15 +158,15 @@ Follow the instructions in the [Opening a Pull Request](#opening-a-pull-request)
 
 ### TypeScript
 
-- All files are `.ts` or `.tsx`. No plain JavaScript.
-- Prop types should live in `src/types.ts`. Avoid declaring types locally if they can be reused.
-- Prefer `interface` for component props and `type` for unions and aliases.
+* All files are `.ts` or `.tsx`. No plain JavaScript.
+* Prop types should live in `src/types.ts`. Avoid declaring types locally if they can be reused.
+* Prefer `interface` for component props and `type` for unions and aliases.
 
 ### React components
 
-- Always use functional components. No class components.
-- Custom hooks should live in `hooks.ts` (image mode) or close to the file that uses them (map mode).
-- Styles should be typed `CSSProperties` objects using `satisfies` — no external CSS and no runtime CSS-in-JS.
+* Always use functional components. No class components.
+* Custom hooks should live in `hooks.ts` (image mode) or close to the file that uses them (map mode).
+* Styles should be typed `CSSProperties` objects using `satisfies` — no external CSS and no runtime CSS-in-JS.
 
 ```tsx
 // ✅ correct
@@ -182,14 +183,14 @@ const styles = { root: { position: "relative" } };
 
 ### Canvas / utilities
 
-- Canvas functions should live in `utils.ts` (image mode) or `map/map.utils.ts` (OSM mode).
-- Functions should be pure whenever possible — they should receive the canvas and data, and avoid accessing external state.
-- Prefer using `clamp` from `utils.ts` instead of inline `Math.min(Math.max(...))`.
+* Canvas functions should live in `utils.ts` (image mode) or `map/map.utils.ts` (OSM mode).
+* Functions should be pure whenever possible — they should receive the canvas and data, and avoid accessing external state.
+* Prefer using `clamp` from `utils.ts` instead of inline `Math.min(Math.max(...))`.
 
 ### Exports
 
-- Only export from `src/index.ts` what is part of the public API.
-- Internal types (for example, `ImageRect`, `Pan`) should only be exported when needed by the consumer.
+* Only export from `src/index.ts` what is part of the public API.
+* Internal types (for example, `ImageRect`, `Pan`) should only be exported when needed by the consumer.
 
 ---
 
@@ -228,10 +229,91 @@ npm run test:coverage # coverage report
 
 ### Best practices
 
-- Each pure function should have at least one test for the happy path and one for edge values (0, 100, NaN).
-- Do not test implementation details — test observable behavior.
-- `jsdom` does not implement `canvas.getContext()` — mock it via `vi.spyOn(canvas, "getContext")` before calling any canvas function.
-- `ResizeObserver` mocks may be required for hooks that observe container size.
+* Each pure function should have at least one test for the happy path and one for edge values (0, 100, NaN).
+* Do not test implementation details — test observable behavior.
+* `jsdom` does not implement `canvas.getContext()` — mock it via `vi.spyOn(canvas, "getContext")` before calling any canvas function.
+* `ResizeObserver` mocks may be required for hooks that observe container size.
+
+---
+
+## Release and changelog
+
+This project uses `changelogen` to generate the release changelog based on semantic commits.
+
+The changelog is generated as a Markdown file, usually named:
+
+```txt
+CHANGELOG.md
+```
+
+This file should be committed to the repository because it documents what changed in each published version.
+
+### Before preparing a release
+
+Make sure the build and tests pass:
+
+```bash
+npm run build
+npm run test:run
+```
+
+### Generate the changelog
+
+To generate or update the changelog, run:
+
+```bash
+npm run release
+```
+
+This command may update files such as:
+
+```txt
+CHANGELOG.md
+package.json
+package-lock.json
+```
+
+Review the generated changes before committing them.
+
+### Commit the release files
+
+After reviewing the generated files, commit them:
+
+```bash
+git add "CHANGELOG.md" "package.json" "package-lock.json"
+git commit -m "chore(release): prepare release"
+```
+
+If a git tag is created during the release process, push it with:
+
+```bash
+git push origin main --tags
+```
+
+If no tag is created automatically, push normally:
+
+```bash
+git push origin main
+```
+
+### Publishing
+
+The publish workflow runs on pushes to `main`.
+
+It checks the local package version in `package.json` and compares it with the version already published on npm.
+
+If the local version is different from the npm version, the package is published automatically.
+
+This means that the recommended flow is:
+
+```bash
+npm run build
+npm run test:run
+npm run release
+git add "CHANGELOG.md" "package.json" "package-lock.json"
+git commit -m "chore(release): prepare release"
+git push origin main --tags
+```
 
 ---
 
@@ -253,22 +335,23 @@ git push origin feat/my-feature
 3. Open a PR in the original repository targeting **`dev`**.
 
 4. Fill out the PR template with:
-   - **What changes** — objective description of what was done
-   - **Why** — motivation or related issue
-   - **How to test** — steps to reproduce or verify
-   - **Screenshots** (if there are visual changes)
+
+   * **What changes** — objective description of what was done
+   * **Why** — motivation or related issue
+   * **How to test** — steps to reproduce or verify
+   * **Screenshots** (if there are visual changes)
 
 5. Wait for review. Changes may be requested — this is normal and part of the process.
 
 ### Checklist before opening the PR
 
-- [ ] `npm run build` runs without errors
-- [ ] `npm run test:run` passes without errors
-- [ ] New or modified code has corresponding tests
-- [ ] No new `any` was introduced without justification
-- [ ] Added or modified types are in `src/types.ts`
-- [ ] New public exports are in `src/index.ts`
-- [ ] Documentation was updated if the API changed (`README.md` or `docs/`)
+* [ ] `npm run build` runs without errors
+* [ ] `npm run test:run` passes without errors
+* [ ] New or modified code has corresponding tests
+* [ ] No new `any` was introduced without justification
+* [ ] Added or modified types are in `src/types.ts`
+* [ ] New public exports are in `src/index.ts`
+* [ ] Documentation was updated if the API changed (`README.md` or `docs/`)
 
 ---
 
@@ -276,10 +359,10 @@ git push origin feat/my-feature
 
 Open an [issue](https://github.com/Bzutech/react-heatmap-chart/issues/new) with:
 
-- **Library version** (`npm list react-heatmap-chart`)
-- **Description of expected vs. observed behavior**
-- **Minimal reproducible code** (snippet or sandbox)
-- **Environment** — browser, Node version, bundler
+* **Library version** (`npm list react-heatmap-chart`)
+* **Description of expected vs. observed behavior**
+* **Minimal reproducible code** (snippet or sandbox)
+* **Environment** — browser, Node version, bundler
 
 ---
 
@@ -287,9 +370,9 @@ Open an [issue](https://github.com/Bzutech/react-heatmap-chart/issues/new) with:
 
 Open an issue with the `enhancement` label describing:
 
-- The problem the improvement would solve
-- The solution you have in mind
-- Alternatives you considered
+* The problem the improvement would solve
+* The solution you have in mind
+* Alternatives you considered
 
 If you want to implement it yourself, comment on the issue before opening a PR to avoid duplicated work.
 
