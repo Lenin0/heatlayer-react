@@ -1,6 +1,6 @@
 {
   "name": "heatlayer-react",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Interactive heatmap components for React — image and OpenStreetMap modes",
   "license": "MIT",
   "author": "Bzutech",

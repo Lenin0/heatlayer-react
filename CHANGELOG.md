@@ -1,6 +1,33 @@
 # Changelog
 
 
+## v0.1.3
+
+[compare changes](https://github.com/Lenin0/heatmap-react/compare/v0.1.2...v0.1.3)
+
+### 🩹 Fixes
+
+- **package:** Update npm package metadata ([61706e4](https://github.com/Lenin0/heatmap-react/commit/61706e4))
+
+### 📖 Documentation
+
+- **Readme:** Update package name ([2c11bf6](https://github.com/Lenin0/heatmap-react/commit/2c11bf6))
+- **CONTRIBUTING:** Update package release instructions ([8920d72](https://github.com/Lenin0/heatmap-react/commit/8920d72))
+
+### 🏡 Chore
+
+- **package-lock:** Update package metadata ([ef4e3e7](https://github.com/Lenin0/heatmap-react/commit/ef4e3e7))
+- **package-lock:** Update package lock metadata ([31eb29f](https://github.com/Lenin0/heatmap-react/commit/31eb29f))
+
+### 🤖 CI
+
+- **publish:** Update npm package name ([7253feb](https://github.com/Lenin0/heatmap-react/commit/7253feb))
+- **publish:** Update npm package name ([5f248e1](https://github.com/Lenin0/heatmap-react/commit/5f248e1))
+
+### ❤️ Contributors
+
+- Pedro Lenin <pedrolenin06@gmail.com>
+
 ## v0.1.2
 
 [compare changes](https://github.com/Lenin0/heatmap-react/compare/v0.1.1...v0.1.2)
