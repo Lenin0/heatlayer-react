@@ -31,7 +31,7 @@ Thank you for your interest in contributing! This document explains how to set u
 1. **Fork** the repository and clone your fork:
 
 ```bash
-git clone https://github.com/Bzutech/react-heatmap-chart
+git clone https://github.com/Lenin0/heatmap-react
 cd react-heatmap-chart
 ```
 
